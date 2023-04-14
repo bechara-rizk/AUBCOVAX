@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+Index
+{% if user.is_authenticated %}
+<h1>Hello {{user.name}}</h1>{{user.username}}
+{{user.email}}{{user.DOB}}
+{% else %}
+<h1>Hello, stranger</h1>
+{% endif %}
+{% endblock %}
+
