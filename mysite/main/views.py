@@ -31,6 +31,10 @@ def register(request):
             user=form.save()
             Account.objects.create_user(username, email, password, name=name, DOB=DOB, ID_nbr=ID_nbr, phone_nbr=phone_nbr, address=address, medical_history=medical_history, isMedicalStaff=isMedicalStaff, isAdmin=isAdmin)
             login(request, user)
+            return redirect('/')
     else:
         form=RegisterForm()
     return render(request, 'register.html', {'form': form})
+
+def patientInfo(request):
+    return render(request, 'patientInfo.html')
