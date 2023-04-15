@@ -17,4 +17,4 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model=Account
         #add fields in order of appearance including username, password, and password2
-        fields=['name', 'DOB', 'ID_nbr', 'phone_nbr', 'email', 'address', 'medical_history', 'username', 'password1', 'password2']
+        fields=['username', 'name', 'DOB', 'ID_nbr', 'phone_nbr', 'email', 'address', 'medical_history', 'password1', 'password2']

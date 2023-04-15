@@ -8,14 +8,12 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container-fluid">
-    <h1>Register</h1>
-    <p>Note: your info can&apos;t be changed later, so make sure you enter it correctly.</p>
-    <form method="POST" action="" class="form-group">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit">Register</button>
-    </form>
-</div>
+<h1>Register</h1>
+<p>Note: your info can&apos;t be changed later, so make sure you enter it correctly.</p>
+<form method="POST" action="" class="form-group">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button class="btn btn-outline-success" type="submit">Register</button>
+</form>
 {% endblock %}
 
