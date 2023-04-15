@@ -15,7 +15,7 @@ def register(request):
         form=RegisterForm(request.POST)
         # print(form)
         if form.is_valid():
-            print('valid')
+            # print('valid')
             username=form.cleaned_data.get('username')
             password=form.cleaned_data.get('password1')
             name=form.cleaned_data.get('name')

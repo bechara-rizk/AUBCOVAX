@@ -6,7 +6,7 @@ from .models import Account
 
 class RegisterForm(UserCreationForm):
     #add fields other than username and password
-    name = forms.CharField(max_length=200, label='Name')
+    name = forms.CharField(max_length=200, label='Full Name')
     DOB = forms.DateField(label='Date of Birth, MM/DD/YYYY')
     ID_nbr = forms.IntegerField(label="ID Number")
     phone_nbr = forms.IntegerField(label="Phone Number")

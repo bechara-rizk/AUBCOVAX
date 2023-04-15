@@ -10,10 +10,11 @@ class MyUserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(username=username, email=email, **extra_fields)
         user.set_password(password)
-        # user.save()
+        if extra_fields.get('is_superuser') == True:
+            user.save()
         return user
     
-    def create_superuser(self, username, password, email, **extra_fields):
+    def create_superuser(self, username, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
@@ -27,9 +28,9 @@ class Account(AbstractBaseUser, PermissionsMixin):
     isMedicalStaff = models.BooleanField(default=False)
     isAdmin = models.BooleanField(default=False)
     name = models.CharField(max_length=200)
-    email = models.EmailField()
+    email = models.EmailField(unique=False)
     DOB = models.DateField()
-    ID_nbr = models.IntegerField()
+    ID_nbr = models.IntegerField(unique=True)
     phone_nbr = models.IntegerField()
     address = models.CharField(max_length=200)
     medical_history = models.TextField()
