@@ -32,7 +32,12 @@ class Account(AbstractBaseUser, PermissionsMixin):
     ID_nbr = models.IntegerField()
     phone_nbr = models.IntegerField()
     address = models.CharField(max_length=200)
-    medical_history = models.CharField(max_length=200)
+    medical_history = models.TextField()
+    doseOne = models.BooleanField(default=False)
+    doseOneDate = models.DateField(null=True, blank=True)
+    doseTwo = models.BooleanField(default=False)
+    doseTwoDate = models.DateField(null=True, blank=True)
+    nextAppointment = models.DateField(null=True, blank=True)
 
     is_staff=models.BooleanField(default=False)
     is_active=models.BooleanField(default=True)
