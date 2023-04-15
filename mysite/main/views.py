@@ -38,3 +38,22 @@ def register(request):
 
 def patientInfo(request):
     return render(request, 'patientInfo.html')
+
+def medicalSearch(request):
+    if request.method == 'POST':
+        phoneNb=request.POST.get('phoneNb')
+        print(phoneNb)
+        return redirect(f'/medicalSearch/{phoneNb}', phoneNb=phoneNb)
+    return render(request, 'medicalSearch.html', {'result':False,'nb':''})
+
+def medicalSearchNb(request, phoneNb):
+    if request.method == 'POST':
+        phoneNb=request.POST.get('phoneNb')
+        print(phoneNb)
+        return redirect(f'/medicalSearch/{phoneNb}', phoneNb=phoneNb)
+    
+    patient=Account.objects.filter(phone_nbr=phoneNb)
+    try:
+        return render(request, 'medicalSearch.html', {'result':True ,'patient': patient[0], 'notFound':False,'nb':phoneNb})
+    except:
+        return render(request, 'medicalSearch.html', {'result':True, 'notFound':True,'nb':phoneNb})

@@ -6,4 +6,6 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('register/', views.register, name='register'),
     path('patientInfo/', views.patientInfo, name='patientInfo'),
+    path('medicalSearch/', views.medicalSearch, name='medicalSearch'),
+    path('medicalSearch/<int:phoneNb>', views.medicalSearchNb, name='medicalSearch'),
 ]

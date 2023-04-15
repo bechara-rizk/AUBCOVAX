@@ -31,7 +31,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=False)
     DOB = models.DateField()
     ID_nbr = models.IntegerField(unique=True)
-    phone_nbr = models.IntegerField()
+    phone_nbr = models.IntegerField(unique=True)
     address = models.CharField(max_length=200)
     medical_history = models.TextField()
     doseOne = models.BooleanField(default=False)

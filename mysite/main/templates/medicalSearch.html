@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Search for a patient{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated and user.isMedicalStaff %}
+<form method="post" class="d-flex">
+{% csrf_token %}
+<input class="form-control me-2" type="search" placeholder="Enter a phone number" value="{{nb}}" aria-label="Search" name="phoneNb">
+<button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+{% if notFound %}
+<p>Sorry, we couldn't find a patient with that name</p>
+{% else %}
+{% if result %}
+{{patient}}
+{{patient.name}}
+{{patient.DOB}}
+{{patient.email}}
+{{patient.username}}
+{% else %}
+search for a patient
+{% endif %}
+{% endif %}
+{% else %}
+You need to be a Medical Staff to access this page
+{% endif %}
+{% endblock %}
