@@ -1,5 +1,8 @@
 # AUBCOVAX
 
+Tested on python 3.10.9
+Need to install: pip install django django-crispy-forms crispy_bootstrap5
+
 ## Introduction:
 The AUBCOVAX is a mobile application that manages the vaccination process of a specific population/country. The application should provide first the medical team with an interface to confirm vaccination dose one and two, and second the patients with an interface to register for the vaccine and view their certificate after successfully getting the second dose.
 Since a large number of people are using the same application and hence sharing the same scheduling database, then the application should be able to communicate with a centralized database that holds all patient records, user records, centralized scheduled records, and certificate record.
