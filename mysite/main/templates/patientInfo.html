@@ -1,18 +1,72 @@
 {% extends 'base.html' %}
 
+
 {% block title %}Patient Records{% endblock %}
 
 {% block css %}
 <style>
+.notauth{
+    color:red; 
+    font-size: 15px;
+}
+
+.infopagecontainer{
+    margin-top: 30px; 
+    padding: 15px; 
+}
+
+h1{
+    margin-bottom: 30px;
+    font-size: 30px;
+}
 
 </style>
 {% endblock %}
 
 {% block content %}
+
 {% if user.is_authenticated %}
-Patient records tatata
+    <div class="infopagecontainer">
+        <h1>Patient Records</h1>
+        <p>Username: {{ user }} </p>
+        <p>Full Name: {{user.name}}</p>
+        <p>ID: {{user.ID_nbr}}</p>
+        <p>DOB: {{user.DOB}}</p>
+        <p>Phone Number: {{user.phone_nbr}} </p>
+        <p>Address: {{user.address}} </p>
+        <p>Medical History: {{user.medical_history}} </p>
+        {%if user.doseOne %}
+        <p>Dose One Date: {{user.doseOneDate}}  </p>
+        {%else%}
+        <p>Dose One Date: Not Taken Yet!  </p>
+        {%endif%}
+
+        {%if user.doseTwo %}
+        <p>Dose Two Status:{{user.doseTwoDate}} </p>
+        {%else%}
+        <p>Dose Two Date: Not Taken Yet!  </p>
+        {%endif%}
+    </div>
+
 {% else %}
-put maybe a text ma3 link enno you need to be loged in to see this page
+<div class="infopagecontainer">
+    <h1>Patient Records</h1>
+    <p>Username: </p>
+    <p>Full Name: </p>
+    <p>ID: </p>
+    <p>DOB: </p>
+    <p>Phone Number: </p>
+    <p>Medical History: </p>
+    <p>Dose One Status: </p>
+    <p>Dose Two Status: </p>
+</div>
+
+<a href="/login"> Login to view Patient Records! </a>
 {% endif %}
+
+
 {% endblock %}
 
+
+
+        
