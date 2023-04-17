@@ -25,13 +25,14 @@
         }
         input#id_password {
         max-width: 250px;
-    }
+            }
+        
+        
     </style>
 
-    <div class="image-wrapper">
-    <img src="C:\Users\User\Desktop\EECE 451 layan\doc2" alt="doctor pic" 
-    width="500" height="600" align="right" border="1">
-    </div>
+<img src="\static\vaccine.png" alt="doc image" height="500" width="600" align="right" border="1">
+
+
     
     <form method="POST" action="">
         {% csrf_token %}
@@ -39,7 +40,7 @@
         
         <button class="btn btn-outline-primary" type="submit">Login</button>
     <h6> </h6>
-    <h6>Don't have an account?<a href="https://www.example.com"> Register</a></h6>
+    <h6>Don't have an account? <a href="https://www.example.com">Register</a></h6>
     </form>
 </div>
 {% endblock %}
