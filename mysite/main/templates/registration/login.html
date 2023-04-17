@@ -9,10 +9,34 @@
 
 {% block content %}
 <div class="container-fluid">
-    <h1>Login</h1>
+
+    <div class="header-wrapper">
+    <h2>Login</h2>
+    </div>
+
+    <style>
+        h2 {
+         margin-top: 100px;
+        padding: 30px;
+      }
+        
+        input#id_username {
+            width: 250px; /* set the width of the username field */
+        }
+        input#id_password {
+        max-width: 250px;
+    }
+    </style>
+
+    <div class="image-wrapper">
+    <img src="C:\Users\User\Desktop\EECE 451 layan\doc2" alt="doctor pic" 
+    width="500" height="600" align="right" border="1">
+    </div>
+    
     <form method="POST" action="">
         {% csrf_token %}
         {{ form|crispy }}
+        
         <button class="btn btn-outline-primary" type="submit">Login</button>
     <h6> </h6>
     <h6>Don't have an account?<a href="https://www.example.com"> Register</a></h6>
