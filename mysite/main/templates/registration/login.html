@@ -39,41 +39,23 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid" style="padding: 30px;">
+    {% load static %}
+    <h2 style="margin-bottom: 20px; height:2.25rem">Login <img src="{% static 'vaccine.png' %}" alt="image" style="height:100%;" class="img-small"></h2>
 
-    <div class="header-wrapper">
-    <h2>Login</h2>
+    <div class="content">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-outline-primary" type="submit">Login</button>
+        </form>
+        <br>
+        <h6>Don't have an account? <a href="/register" class="link-primary">Register</a></h6>
     </div>
 
-    <!-- <style>
-        h2 {
-         margin-top: 100px;
-        padding: 25px;
-
-      }
-        
-        input#id_username {
-            width: 250px; /* set the width of the username field */
-            margin-left: 50px;
-        }
-        input#id_password {
-        max-width: 250px;
-            }
-        
-        
-    </style> -->
-
-<img src="\static\docWgranny.jpg" alt="doc image" style= "height:530px; width:660px; position:absolute; top:0; right:0; margin-top:56px;">
-
-
-    
-    <form method="POST" action="">
-        {% csrf_token %}
-        {{ form|crispy }}
-        
-        <button class="btn btn-outline-primary" type="submit">Login</button>
-    <h6> </h6>
-    <h6>Don't have an account? <a href="http://127.0.0.1:8000/register/">Register</a></h6>
-    </form>
+    <div class="content img-big">
+        {% load static %}
+        <img src="{% static 'vaccine.png' %}" alt="image" style="height: 100%; width:auto; float: right;">
+    </div>
 </div>
 {% endblock %}
