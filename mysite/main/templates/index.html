@@ -3,13 +3,20 @@
 {% block title %}Home{% endblock %}
 
 {% block css %}
-{% endblock %}
+<style> 
+.container {
 
+    /* {% load static %}
+    background-image:url("{% static 'index.png' %}"); */
+}
+</style>
+{% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
 <h1>Hello {{user.name}}</h1>{{user.username}}
 {{user.email}}{{user.DOB}}
 {% else %}
+<!-- <h1><IMG SRC="index.png"></h1> -->
 <h1>Hello, stranger</h1>
 {% endif %}
 {% endblock %}

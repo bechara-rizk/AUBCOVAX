@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-{% if user.is_authenticated and user.isMedicalStaff %}
+{% if user.is_authenticated and user.isMedicalStaff %}  
 <form method="post" class="d-flex">
 {% csrf_token %}
 <input class="form-control me-2" type="search" placeholder="Enter a phone number" value="{{nb}}" aria-label="Search" name="phoneNb">
