@@ -5,18 +5,13 @@
 
 {% block css %}
 <style>
-.notauth{
-    color:red; 
-    font-size: 15px;
-}
-
 .infopagecontainer{
-    margin-top: 30px; 
+    /* margin-top: 30px;  */
     padding: 15px; 
 }
 
 h1{
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-size: 30px;
 }
 
@@ -59,9 +54,10 @@ h1{
     <p>Medical History: </p>
     <p>Dose One Status: </p>
     <p>Dose Two Status: </p>
+    <br>
+    <a href="/login" class="link-danger"> Login to view Patient Records! </a>
 </div>
 
-<a href="/login"> Login to view Patient Records! </a>
 {% endif %}
 
 
