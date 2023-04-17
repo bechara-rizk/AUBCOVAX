@@ -3,6 +3,37 @@
 {% block title %}Login{% endblock %}
 
 {% block css %}
+<style>
+    h2 {
+         margin-top: 100px;
+        padding: 35px;
+
+      }
+    input#id_username {
+        width: 250px;
+    }
+
+    input#id_password {
+        max-width: 250px;
+    }
+    .content {
+        width: 50%;
+        min-width: 250px;
+        float: left;
+    }
+    .img-small {
+        display: none;
+    }
+    @media screen and (max-width: 600px) {
+        .img-big {
+            display: none;
+        }
+        .img-small {
+            display: inline;
+        }
+    }
+    
+</style>
 {% endblock %}
 
 {% load crispy_forms_tags %}
@@ -14,23 +45,25 @@
     <h2>Login</h2>
     </div>
 
-    <style>
+    <!-- <style>
         h2 {
          margin-top: 100px;
-        padding: 30px;
+        padding: 25px;
+
       }
         
         input#id_username {
             width: 250px; /* set the width of the username field */
+            margin-left: 50px;
         }
         input#id_password {
         max-width: 250px;
             }
         
         
-    </style>
+    </style> -->
 
-<img src="images\doc2.png" alt="doc image" height="500" width="600" align="right" border="1">
+<img src="\static\docWgranny.jpg" alt="doc image" style= "height:530px; width:660px; position:absolute; top:0; right:0; margin-top:56px;">
 
 
     
@@ -40,8 +73,7 @@
         
         <button class="btn btn-outline-primary" type="submit">Login</button>
     <h6> </h6>
-    <h6>Don't have an account? <a href="https://www.example.com">Register</a></h6>
+    <h6>Don't have an account? <a href="http://127.0.0.1:8000/register/">Register</a></h6>
     </form>
 </div>
 {% endblock %}
-
