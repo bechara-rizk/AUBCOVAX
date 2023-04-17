@@ -13,7 +13,24 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h1>Register</h1>
+
+<style>
+    h2 {
+     margin-top: 100px;
+    padding: 30px;
+  } 
+    input#id_username {
+        width: 250px; /* set the width of the username field */
+    }
+    #div_id_full_name input{
+        width: 300px;
+    }
+     
+    
+    
+</style>
+
+
 <p>Note: your info can&apos;t be changed later, so make sure you enter it correctly.</p>
 <form method="POST" action="" class="form-group">
     {% csrf_token %}
