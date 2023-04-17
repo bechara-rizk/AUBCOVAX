@@ -3,13 +3,18 @@
 {% block title %}Search for a patient{% endblock %}
 
 {% block css %}
+<style>
+.search-input:placeholder-shown{
+    font-style: italic;
+}
+</style>
 {% endblock %}
 
 {% block content %}
 {% if user.is_authenticated and user.isMedicalStaff %}  
 <form method="post" class="d-flex">
 {% csrf_token %}
-<input class="form-control me-2" type="search" placeholder="Enter a phone number" value="{{nb}}" aria-label="Search" name="phoneNb">
+<input class="form-control me-2 search-input" type="search" placeholder="Enter a phone number" value="{{nb}}" aria-label="Search" name="phoneNb">
 <button class="btn btn-outline-primary" type="submit">Search</button>
 </form>
 {% if notFound %}
