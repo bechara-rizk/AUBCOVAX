@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from .forms import RegisterForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -59,13 +59,51 @@ def medicalSearch(request):
     return render(request, 'medicalSearch.html', {'result':False,'nb':''})
 
 def medicalSearchNb(request, phoneNb):
-    if request.method == 'POST':
+    today=date.fromisoformat(datetime.datetime.today().strftime('%Y-%m-%d'))
+    avlbl=[]
+    # print(request.POST)
+    if request.method == 'POST' and request.POST.get('phoneNb'):
         phoneNb=request.POST.get('phoneNb')
-        print(phoneNb)
+        # print(phoneNb)
+        return redirect(f'/medicalSearch/{phoneNb}', phoneNb=phoneNb)
+    elif request.method == 'POST' and request.POST.get('confirm'):
+        # print(request.POST)
+        phoneNb=request.POST.get('confirm') 
+        account=Account.objects.get(phone_nbr=phoneNb)
+        account.doseOne=True
+        account.save()
+        return redirect(f'/medicalSearch/{phoneNb}', phoneNb=phoneNb)
+    elif request.method == 'POST' and request.POST.get('confirm2'):
+        # print(request.POST)
+        phoneNb=request.POST.get('confirm2') 
+        account=Account.objects.get(phone_nbr=phoneNb)
+        account.doseTwo=True
+        account.save()
+        #TODO generate certificate
+        return redirect(f'/medicalSearch/{phoneNb}', phoneNb=phoneNb)
+    elif request.method == 'POST' and request.POST.get('view'):
+        avlbl=scheduling.viewAvailableAppointmentsRange(today+datetime.timedelta(days=14),7)
+        patient=Account.objects.get(phone_nbr=phoneNb)
+        context={'result':True ,'patient': patient, 'notFound':False,'nb':phoneNb, 'today':today, 'slots':avlbl}
+        return render(request, 'medicalSearch.html', context)
+    elif request.method == 'POST' and request.POST.get('date'):
+        Date=request.POST.get('date').split()[0]
+        Date=date.fromisoformat(Date)
+        time=request.POST.get('date').split()[1]
+        patient=Account.objects.get(phone_nbr=phoneNb)
+        if scheduling.bookAppointment(Date,time,phoneNb):
+            patient.doseTwoDate, patient.doseTwoTime=Date, time
+            patient.save()
+        else:
+            return HttpResponse('Error happened please contact site admin')
         return redirect(f'/medicalSearch/{phoneNb}', phoneNb=phoneNb)
     
     patient=Account.objects.filter(phone_nbr=phoneNb)
     try:
-        return render(request, 'medicalSearch.html', {'result':True ,'patient': patient[0], 'notFound':False,'nb':phoneNb})
+        patient=patient[0]
     except:
         return render(request, 'medicalSearch.html', {'result':True, 'notFound':True,'nb':phoneNb})
+    
+    context={'result':True ,'patient': patient, 'notFound':False,'nb':phoneNb, 'today':today}
+
+    return render(request, 'medicalSearch.html', context)

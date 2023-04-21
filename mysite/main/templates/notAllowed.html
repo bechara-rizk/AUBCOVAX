@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Error 403{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <h1>403 Forbidden</h1>
+    <p>You are not allowed to access this page.</p>
+    <a class="link-primary" href="/">Home</a>
+{% else %}
+    <h1>403 Forbidden</h1>
+    <p>You are not allowed to access this page. Please <a class="link-primary" href="/login">login</a> with another account to continue or go to a different page.</p>
+    <a class="link-primary" href="/">Home</a>
+{% endif %}
+{% endblock %}

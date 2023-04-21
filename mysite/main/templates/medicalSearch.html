@@ -12,22 +12,81 @@
 
 {% block content %}
 {% if user.is_authenticated and user.isMedicalStaff %}  
-<form method="post" class="d-flex">
+<form method="post" class="d-flex" style="margin-bottom: 20px;">
 {% csrf_token %}
 <input class="form-control me-2 search-input" type="search" placeholder="Enter a phone number" value="{{nb}}" aria-label="Search" name="phoneNb">
 <button class="btn btn-outline-primary" type="submit">Search</button>
 </form>
 {% if notFound %}
-<p>Sorry, we couldn't find a patient with that name</p>
+<h3>Sorry, we couldn't find a patient with that phone number</h3>
 {% else %}
 {% if result %}
+<h3>Patient found!</h3>
 {{patient}}
 {{patient.name}}
 {{patient.DOB}}
 {{patient.email}}
 {{patient.username}}
+<br>
+{% if not patient.doseOne %}
+<h3>First dose not yet administered</h3>
+Date: {{patient.doseOneDate}}
+<br>
+Time: {{patient.doseOneTime}}
+
+{% if today == patient.doseOneDate %}
+<h3>Today is the day!</h3>
+<form method="POST">
+    {% csrf_token %}
+    <button class="btn btn-warning" type="submit" name="confirm" value="{{patient.phone_nbr}}">Confirm Vaccination</button>
+</form>
 {% else %}
-search for a patient
+<h3>Cannot vaccinate today</h3>
+{% endif %}
+
+{% else %}
+
+first dose taken on {{patient.doseOneDate}}
+<br>
+{% if patient.doseTwo == False %}
+{% if patient.doseTwoDate == None %}
+Schedule second dose
+<br>
+<form method="POST">
+    {% csrf_token %}
+    <button class="btn btn-warning" type="submit" name="view" value="view">View available time slots</button>
+</form>
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="list-group">
+    {% for slot in slots %}
+        <button type="submit" class="list-group-item list-group-item-action" name="date" value="{{slot}}">{{slot.split.0}} at {{slot.split.1}}</button>
+    {% endfor %}
+    </div>
+</form>
+
+{% else %}
+{% if today == patient.doseTwoDate %}
+<h3>Today is the day!</h3>
+<form method="POST">
+    {% csrf_token %}
+    <button class="btn btn-warning" type="submit" name="confirm2" value="{{patient.phone_nbr}}">Confirm Second Vaccination</button>
+</form>
+{% else %}
+<h3>Cannot vaccinate today</h3>
+{% endif %}
+
+{% endif %}
+
+{% else %}
+second dose taken on {{patient.doseTwoDate}}
+
+{% endif %}
+
+{% endif %}
+{% else %}
+<h3>Enter a patient's phone number to search</h3>
 {% endif %}
 {% endif %}
 {% else %}
