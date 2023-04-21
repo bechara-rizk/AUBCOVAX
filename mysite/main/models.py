@@ -22,9 +22,8 @@ class MyUserManager(BaseUserManager):
         return self.create_user(username, email, password, **extra_fields)
 
 class Account(AbstractBaseUser, PermissionsMixin):
-    # user=models.OneToOneField(User, on_delete=models.CASCADE)
     username=models.CharField(max_length=200, unique=True)
-
+    #password is built in by default
     isMedicalStaff = models.BooleanField(default=False)
     isAdmin = models.BooleanField(default=False)
     name = models.CharField(max_length=200)
@@ -34,13 +33,16 @@ class Account(AbstractBaseUser, PermissionsMixin):
     phone_nbr = models.IntegerField(unique=True)
     address = models.CharField(max_length=200)
     medical_history = models.TextField()
+
     doseOne = models.BooleanField(default=False)
     doseOneDate = models.DateField(null=True, blank=True)
     doseOneTime=models.CharField(max_length=200, null=True, blank=True)
+
     doseTwo = models.BooleanField(default=False)
     doseTwoDate = models.DateField(null=True, blank=True)
     doseTwoTime=models.CharField(max_length=200, null=True, blank=True)
-    nextAppointment = models.DateField(null=True, blank=True)
+
+    # nextAppointment = models.DateField(null=True, blank=True)
 
     is_staff=models.BooleanField(default=False)
     is_active=models.BooleanField(default=True)

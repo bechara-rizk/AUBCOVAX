@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Account
 import datetime
-import scheduling
+from . import scheduling
 from datetime import date
 
 # Create your views here.
@@ -33,6 +33,15 @@ def register(request):
 
             user=form.save()
             Account.objects.create_user(username, email, password, name=name, DOB=DOB, ID_nbr=ID_nbr, phone_nbr=phone_nbr, address=address, medical_history=medical_history, isMedicalStaff=isMedicalStaff, isAdmin=isAdmin)
+            today=datetime.datetime.today().strftime('%Y-%m-%d')
+            today=date.fromisoformat(today)
+            Appt,time=scheduling.getFirstAppointment(today,phone_nbr)
+            new=Account.objects.get(phone_nbr=phone_nbr)
+            # print(new)
+            #scheduling first dose
+            new.doseOneDate, new.doseOneTime=Appt,time
+            new.save()
+
             login(request, user)
             return redirect('/')
     else:
