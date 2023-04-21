@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}View medical personel{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<h1>View medical personel</h1>
+<p>Here is a list of all medical personel in the system.</p>
+<ul class="list-group">
+    {% for med in personel %}
+    <li class="list-group-item">{{ med.name }}, {{med.ID_nbr}}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

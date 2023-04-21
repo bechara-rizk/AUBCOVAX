@@ -43,7 +43,7 @@ def register(request):
             new.save()
 
             login(request, user)
-            return redirect('/')
+            return redirect('/patientInfo')
     else:
         form=RegisterForm()
     return render(request, 'register.html', {'form': form})
@@ -52,6 +52,7 @@ def patientInfo(request):
     return render(request, 'patientInfo.html')
 
 def medicalSearch(request):
+    #TODO add perm
     if request.method == 'POST':
         phoneNb=request.POST.get('phoneNb')
         print(phoneNb)
@@ -59,6 +60,7 @@ def medicalSearch(request):
     return render(request, 'medicalSearch.html', {'result':False,'nb':''})
 
 def medicalSearchNb(request, phoneNb):
+    #TODO add perm
     today=date.fromisoformat(datetime.datetime.today().strftime('%Y-%m-%d'))
     avlbl=[]
     # print(request.POST)
@@ -107,3 +109,17 @@ def medicalSearchNb(request, phoneNb):
     context={'result':True ,'patient': patient, 'notFound':False,'nb':phoneNb, 'today':today}
 
     return render(request, 'medicalSearch.html', context)
+
+def adminMed(request):
+    if not request.user.is_authenticated or not request.user.isMedicalStaff:
+        return render(request, 'notAllowed.html')
+    
+    personel=Account.objects.filter(isMedicalStaff=True)
+    context={'personel':personel}
+    return render(request, 'adminMed.html', context)
+
+def adminPatient(request):
+    if not request.user.is_authenticated or not request.user.isAdmin:
+        return render(request, 'notAllowed.html')
+    #TODO
+    return render(request, 'adminPatient.html')
