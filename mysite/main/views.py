@@ -52,7 +52,9 @@ def patientInfo(request):
     return render(request, 'patientInfo.html')
 
 def medicalSearch(request):
-    #TODO add perm
+    if not request.user.is_authenticated or not request.user.isMedicalStaff:
+        return render(request, 'notAllowed.html')
+    
     if request.method == 'POST':
         phoneNb=request.POST.get('phoneNb')
         print(phoneNb)
@@ -60,7 +62,9 @@ def medicalSearch(request):
     return render(request, 'medicalSearch.html', {'result':False,'nb':''})
 
 def medicalSearchNb(request, phoneNb):
-    #TODO add perm
+    if not request.user.is_authenticated or not request.user.isMedicalStaff:
+        return render(request, 'notAllowed.html')
+
     today=date.fromisoformat(datetime.datetime.today().strftime('%Y-%m-%d'))
     avlbl=[]
     # print(request.POST)

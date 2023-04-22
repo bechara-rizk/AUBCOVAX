@@ -11,7 +11,6 @@
 {% endblock %}
 
 {% block content %}
-{% if user.is_authenticated and user.isMedicalStaff %}
 <form method="post" class="d-flex" style="margin-bottom: 20px;">
     {% csrf_token %}
     <input class="form-control me-2 search-input" type="search" placeholder="Enter a phone number" value="{{nb}}" aria-label="Search" name="phoneNb">
@@ -88,8 +87,5 @@ second dose taken on {{patient.doseTwoDate}}
 {% else %}
 <h3>Enter a patient's phone number to search</h3>
 {% endif %}
-{% endif %}
-{% else %}
-You need to be a Medical Staff to access this page
 {% endif %}
 {% endblock %}
