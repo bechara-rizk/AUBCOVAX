@@ -3,10 +3,37 @@
 {% block title %}Search for a patient{% endblock %}
 
 {% block css %}
+<style>
+    .search-input:placeholder-shown {
+        font-style: italic;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 <h1>Search for a patient</h1>
 <p>You can search for a patient by thei phone number of their name</p>
+<form method="post" class="d-flex" style="margin-bottom: 20px;">
+    {% csrf_token %}
+    <input class="form-control me-2 search-input" type="search" placeholder="Enter a phone number" value="{{nb}}" aria-label="Search" name="phoneNb">
+    <button class="btn btn-outline-primary" type="submit" name="search-phoneNb" value="phoneNb">Search by phone number</button>
+</form>
+<form method="post" class="d-flex" style="margin-bottom: 20px;">
+    {% csrf_token %}
+    <input class="form-control me-2 search-input" type="search" placeholder="Enter a name" value="{{namefield}}" aria-label="Search" name="name">
+    <button class="btn btn-outline-primary" type="submit" name="search-name" value="name">Search by name</button>
+</form>
+
+<h3>Search results</h3>
+{% if found %}
+<ul class="list-group">
+    {% for patient in results %}
+    <li class="list-group-item">{{ patient.name }}, {{patient.ID_nbr}}</li>
+    {% endfor %}
+</ul>
+
+{% else %}
+<p>No patients found with given info</p>
+{% endif %}
 
 {% endblock %}

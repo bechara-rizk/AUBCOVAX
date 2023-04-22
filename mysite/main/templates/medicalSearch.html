@@ -4,18 +4,18 @@
 
 {% block css %}
 <style>
-.search-input:placeholder-shown{
-    font-style: italic;
-}
+    .search-input:placeholder-shown {
+        font-style: italic;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-{% if user.is_authenticated and user.isMedicalStaff %}  
+{% if user.is_authenticated and user.isMedicalStaff %}
 <form method="post" class="d-flex" style="margin-bottom: 20px;">
-{% csrf_token %}
-<input class="form-control me-2 search-input" type="search" placeholder="Enter a phone number" value="{{nb}}" aria-label="Search" name="phoneNb">
-<button class="btn btn-outline-primary" type="submit">Search</button>
+    {% csrf_token %}
+    <input class="form-control me-2 search-input" type="search" placeholder="Enter a phone number" value="{{nb}}" aria-label="Search" name="phoneNb">
+    <button class="btn btn-outline-primary" type="submit">Search</button>
 </form>
 {% if notFound %}
 <h3>Sorry, we couldn't find a patient with that phone number</h3>
@@ -60,9 +60,9 @@ Schedule second dose
 <form method="POST">
     {% csrf_token %}
     <div class="list-group">
-    {% for slot in slots %}
+        {% for slot in slots %}
         <button type="submit" class="list-group-item list-group-item-action" name="date" value="{{slot}}">{{slot.split.0}} at {{slot.split.1}}</button>
-    {% endfor %}
+        {% endfor %}
     </div>
 </form>
 

@@ -111,7 +111,7 @@ def medicalSearchNb(request, phoneNb):
     return render(request, 'medicalSearch.html', context)
 
 def adminMed(request):
-    if not request.user.is_authenticated or not request.user.isMedicalStaff:
+    if not request.user.is_authenticated or not request.user.isAdmin:
         return render(request, 'notAllowed.html')
     
     personel=Account.objects.filter(isMedicalStaff=True)
@@ -121,5 +121,27 @@ def adminMed(request):
 def adminPatient(request):
     if not request.user.is_authenticated or not request.user.isAdmin:
         return render(request, 'notAllowed.html')
-    #TODO
-    return render(request, 'adminPatient.html')
+    results=[]
+    context=dict()
+    context['found']=True
+    if request.method == 'POST':
+        if request.POST.get('search-name'):
+            # print('name')
+            name=request.POST.get('name')
+            results=Account.objects.filter(name__icontains=name)
+            # print(name)
+            context['namefield']=name
+        elif request.POST.get('search-phoneNb'):
+            # print('phone')
+            phoneNb=request.POST.get('phoneNb')
+            results=Account.objects.filter(phone_nbr=phoneNb)
+            # try:
+            #     results=results
+            # except:
+            #     results=[]
+            # print(phoneNb)
+            context['nb']=phoneNb
+        context['results']=results
+        if len(results)==0: context['found']=False
+
+    return render(request, 'adminPatient.html', context)
