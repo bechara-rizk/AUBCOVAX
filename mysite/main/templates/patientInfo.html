@@ -18,8 +18,6 @@
 {% endblock %}
 
 {% block content %}
-
-{% if user.is_authenticated %}
 <div class="infopagecontainer">
     <h1>Patient Records</h1>
     <p>Username: {{ user }} </p>
@@ -30,34 +28,27 @@
     <p>Address: {{user.address}} </p>
     <p>Medical History: {{user.medical_history}} </p>
     {%if user.doseOne %}
-    <p>Dose One Date: {{user.doseOneDate}} </p>
+    <p>Dose one date: {{user.doseOneDate}} </p>
     {%else%}
-    <p>Dose One Date: Not Taken Yet! </p>
+    <p>Dose one scheduled on: {{user.doseOneDate}} at {{user.doseOneTime}}</p>
     {%endif%}
 
+    {% if user.doseTwoDate == None %}
+    <p>Dose two date: Not scheduled yet!</p>
+    {% else %}
     {%if user.doseTwo %}
-    <p>Dose Two Date:{{user.doseTwoDate}} </p>
+    <p>Dose one date: {{user.doseTwoDate}} </p>
     {%else%}
-    <p>Dose Two Date: Not Taken Yet! </p>
+    <p>Dose two scheduled on: {{user.doseTwoDate}} at {{user.doseTwoTime}}</p>
     {%endif%}
-</div>
+    {% endif %}
 
-{% else %}
-<div class="infopagecontainer">
-    <h1>Patient Records</h1>
-    <p>Username: </p>
-    <p>Full Name: </p>
-    <p>ID: </p>
-    <p>DOB: </p>
-    <p>Phone Number: </p>
-    <p>Medical History: </p>
-    <p>Dose One Status: </p>
-    <p>Dose Two Status: </p>
-    <br>
-    <a href="/login" class="link-danger"> Login to view Patient Records! </a>
+    {% if user.doseOne and user.doseTwo %}
+    <p>Certificate: </p>
+    {% else %}
+    <p>Certificate only available after taking both doses!</p>
+    {% endif %}
 </div>
-
-{% endif %}
 
 
 {% endblock %}

@@ -49,6 +49,8 @@ def register(request):
     return render(request, 'register.html', {'form': form})
 
 def patientInfo(request):
+    if not request.user.is_authenticated:
+        return render(request, 'notAllowed.html')
     return render(request, 'patientInfo.html')
 
 def medicalSearch(request):
