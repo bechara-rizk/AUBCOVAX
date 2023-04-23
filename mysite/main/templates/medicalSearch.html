@@ -1,34 +1,111 @@
-{% extends 'base.html' %}
 
+{% extends 'base.html' %}
+{%load static %}
 {% block title %}Search for a patient{% endblock %}
 
 {% block css %}
 <style>
+
     .search-input:placeholder-shown {
         font-style: italic;
     }
+
+    .search-input{
+        width:500px;
+    }
+
+    medicalSheader{
+        font-size: 20px;
+    }
+
+    PFheader{
+
+        font-size: 25px;
+    }
+
+    CVtheader{
+        font-size: 17px;
+    }
+
+    td {
+        background-color: white;
+        text-align: center;
+  
+}
+
+th {
+    background-color: white;
+  text-align: center;
+}
+
+tbody{
+    background-color: white;
+}
+
+
 </style>
 {% endblock %}
 
+    
+
 {% block content %}
+
+    
+
 <form method="post" class="d-flex" style="margin-bottom: 20px;">
     {% csrf_token %}
     <input class="form-control me-2 search-input" type="search" placeholder="Enter a phone number" value="{{nb}}" aria-label="Search" name="phoneNb">
     <button class="btn btn-outline-primary" type="submit">Search</button>
 </form>
+<table class="table table-bordered">
+    
+    <tr>
+        <th>#</th>
+        <th>Dose 1 Date</th>
+        <th>Dose 2 Date</th>
+        <th>Full Name</th>
+        <th>DOB</th>
+        <th>Mobile No</th>
+       
+    </tr>
 {% if notFound %}
 <h3>Sorry, we couldn't find a patient with that phone number</h3>
 {% else %}
 {% if result %}
-<h3>Patient found!</h3>
-{{patient}}
-{{patient.name}}
-{{patient.DOB}}
-{{patient.email}}
-{{patient.username}}
+<PFheader>Patient found!</PFheader>
+<br>
+<br>
+
+            <tr>
+                    <td>{{patient.ID_nbr}}</td>
+                    {% if patient.doseOne %}
+
+                    <td>{{patient.doseOneDate}}</td>
+                    {% else %}
+                    <td>dose not yet administered</td>
+                    {%endif%}
+
+                    {% if patient.doseOne %}
+                    <td>{{patient.doseTwoDate}}</td>
+                    {% else %}
+                    <td>dose not yet administered</td>
+                    {%endif%}
+                    <td>{{patient.name}}</td>
+                    <td>{{patient.DOB}}</td>
+                    <td>{{patient.phone_nbr}}</td>
+                  
+                </tr>
+                </table>
+
+<br>
+<br>
+<br>
 <br>
 {% if not patient.doseOne %}
-<h3>First dose not yet administered</h3>
+<br>
+<medicalSheader>First dose not yet administered</medicalSheader>
+<br>
+<br>
 Date: {{patient.doseOneDate}}
 <br>
 Time: {{patient.doseOneTime}}
@@ -40,7 +117,9 @@ Time: {{patient.doseOneTime}}
     <button class="btn btn-warning" type="submit" name="confirm" value="{{patient.phone_nbr}}">Confirm Vaccination</button>
 </form>
 {% else %}
-<h3>Cannot vaccinate today</h3>
+<br>
+<br>
+<CVtheader>Cannot vaccinate today</CVtheader>
 {% endif %}
 
 {% else %}
@@ -73,7 +152,7 @@ Schedule second dose
     <button class="btn btn-warning" type="submit" name="confirm2" value="{{patient.phone_nbr}}">Confirm Second Vaccination</button>
 </form>
 {% else %}
-<h3>Cannot vaccinate today</h3>
+<CVtheader>Cannot vaccinate today</CVtheader>
 {% endif %}
 
 {% endif %}
