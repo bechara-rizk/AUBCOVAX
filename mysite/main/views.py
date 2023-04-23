@@ -87,8 +87,7 @@ def medicalSearch(request):
         phoneNb=request.POST.get('phoneNb')
         print(phoneNb)
         return redirect(f'/medicalSearch/{phoneNb}', phoneNb=phoneNb)
-    patients=Account.objects.filter(isMedicalStaff=False, isAdmin=False, is_superuser=False)
-    return render(request, 'medicalSearch.html', {'result':False,'nb':'', 'patients':patients})
+    return render(request, 'medicalSearch.html', {'result':False,'nb':''})
 
 def medicalSearchNb(request, phoneNb):
     if not request.user.is_authenticated or not request.user.isMedicalStaff:

@@ -11,7 +11,7 @@
     }
 
     .search-input{
-        width:500px;
+        max-width:500px;
     }
 
     medicalSheader{
@@ -41,17 +41,10 @@ th {
 tbody{
     background-color: white;
 }
-
-
 </style>
 {% endblock %}
 
-    
-
 {% block content %}
-
-    
-
 <form method="post" class="d-flex" style="margin-bottom: 20px;">
     {% csrf_token %}
     <input class="form-control me-2 search-input" type="search" placeholder="Enter a phone number" value="{{nb}}" aria-label="Search" name="phoneNb">
@@ -60,79 +53,54 @@ tbody{
 <table class="table table-bordered">
     
     <tr>
-        <th>#</th>
-        <th>Dose 1 Date</th>
-        <th>Dose 2 Date</th>
-        <th>Full Name</th>
-        <th>DOB</th>
-        <th>Mobile No</th>
-       
+        <th style="width:30%">Full Name</th>
+        <th style="width:35%">Dose 1 Date</th>
+        <th style="width:35%">Dose 2 Date</th>
     </tr>
 {% if notFound %}
 <h3>Sorry, we couldn't find a patient with that phone number</h3>
 {% else %}
 {% if result %}
-<PFheader>Patient found!</PFheader>
+<h3>Patient found!</PFheader>
 <br>
-<br>
+        <tr>
+                    <td>{{patient.name}}</td>
 
-            <tr>
-                    <td>{{patient.ID_nbr}}</td>
                     {% if patient.doseOne %}
-
                     <td>{{patient.doseOneDate}}</td>
                     {% else %}
-                    <td>dose not yet administered</td>
+                    <td>Scheduled for {{patient.doseOneDate}} at {{patient.doseOneTime}}</td>
                     {%endif%}
 
-                    {% if patient.doseOne %}
+                    {% if patient.doseTwoDate == None %}
+                    <td>Not scheduled yet</td>
+                    {% else %}
+                    {% if patient.doseTwo %}
                     <td>{{patient.doseTwoDate}}</td>
                     {% else %}
-                    <td>dose not yet administered</td>
+                    <td>Scheduled for {{patient.doseTwoDate}} at {{patient.doseTwoTime}}</td>
                     {%endif%}
-                    <td>{{patient.name}}</td>
-                    <td>{{patient.DOB}}</td>
-                    <td>{{patient.phone_nbr}}</td>
-                  
+                    {%endif%}
                 </tr>
                 </table>
-
-<br>
-<br>
-<br>
-<br>
 {% if not patient.doseOne %}
-<br>
-<medicalSheader>First dose not yet administered</medicalSheader>
-<br>
-<br>
-Date: {{patient.doseOneDate}}
-<br>
-Time: {{patient.doseOneTime}}
-
 {% if today == patient.doseOneDate %}
-<h3>Today is the day!</h3>
+<h3>The patient's vaccination is today!</h3>
 <form method="POST">
     {% csrf_token %}
     <button class="btn btn-warning" type="submit" name="confirm" value="{{patient.phone_nbr}}">Confirm Vaccination</button>
 </form>
 {% else %}
-<br>
-<br>
-<CVtheader>Cannot vaccinate today</CVtheader>
+<h3>The patient's vaccination isn't scheduled for today.</h3>
 {% endif %}
 
 {% else %}
-
-first dose taken on {{patient.doseOneDate}}
-<br>
 {% if patient.doseTwo == False %}
 {% if patient.doseTwoDate == None %}
-Schedule second dose
-<br>
+<h4>Schedule second dose:</h4>
 <form method="POST">
     {% csrf_token %}
-    <button class="btn btn-warning" type="submit" name="view" value="view">View available time slots</button>
+    <button class="btn btn-warning" type="submit" name="view" value="view" style="margin-bottom: 10px;">View available time slots</button>
 </form>
 
 <form method="POST">
@@ -146,19 +114,19 @@ Schedule second dose
 
 {% else %}
 {% if today == patient.doseTwoDate %}
-<h3>Today is the day!</h3>
+<h3>The patient's vaccination is today!</h3>
 <form method="POST">
     {% csrf_token %}
     <button class="btn btn-warning" type="submit" name="confirm2" value="{{patient.phone_nbr}}">Confirm Second Vaccination</button>
 </form>
 {% else %}
-<CVtheader>Cannot vaccinate today</CVtheader>
+<h3>The patient's vaccination isn't scheduled for today.</h3>
 {% endif %}
 
 {% endif %}
 
 {% else %}
-second dose taken on {{patient.doseTwoDate}}
+<h3>The patient received all the required vaccines!</h3>
 
 {% endif %}
 
