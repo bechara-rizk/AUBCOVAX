@@ -10,4 +10,6 @@ urlpatterns = [
     path('medicalSearch/<int:phoneNb>', views.medicalSearchNb, name='medicalSearch'),
     path('adminMed/', views.adminMed, name='adminMed'),
     path('adminPatient/', views.adminPatient, name='adminPatient'),
+    path('viewCertificate/', views.viewCertificate, name='viewCertificate'),
+    path('verifyCertificate/<int:id>', views.verifyCertificate, name='verifyCertificate'),
 ]

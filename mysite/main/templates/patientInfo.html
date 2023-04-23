@@ -14,6 +14,21 @@
         margin-bottom: 20px;
         font-size: 30px;
     }
+    .col,col-8{
+        padding: 0;
+      }
+      .patientInfo > .col{
+        border-top: 2px solid #000 !important;
+        margin-left: 10px;
+      }
+      .patientInfo > .col-8{
+        border-top: 2px solid #000 !important;
+        border-left: 2px solid #000 !important;
+        margin-right: 10px;
+      }
+      .container{
+        max-width: 800px;
+      }
 </style>
 {% endblock %}
 
@@ -44,11 +59,93 @@
     {% endif %}
 
     {% if user.doseOne and user.doseTwo %}
-    <p>Certificate: </p>
+    <p>Certificate: 
+        <a class="btn btn-sm btn-outline-primary" style="margin-right: 5px;" href="/viewCertificate">View</a>
+        <button class="btn btn-sm btn-outline-primary" onclick="generatePDF()">Download</button>
+    </p>
+    <div style="display: none;">
+        <div id="pdfgenerated" class="container">
+            <div class="row" style="height:100px;">
+                <div class="col" style="display: flex">
+                    {% load static %}
+                    <img src="{% static '/vaccine.png' %}" alt="" style="height:80px; width:auto; margin: 7.5px auto;">
+                </div>
+                <div class="col-8" style="display: flex;">
+                    <h5 style="margin: auto;">AUBCOVAX Vaccine Certificate</h5>
+                </div>
+                <div class="col" style="display: flex">
+                    {% load static %}
+                    <img src="{% static '/flag.jpg' %}" alt="" style="width:auto; height:90px; margin: 0 auto;">
+                </div>
+            </div>
+            <div class="row patientInfo" style="height:100px;">
+                <div class="col" style="display: flex">
+                    <h5 style="margin: auto;">Name</h5>
+                </div>
+                <div class="col-8" style="display: flex;">
+                    <h5 style="margin: auto;">{{user.name}}</h5>
+                </div>
+            </div>
+            <div class="row patientInfo" style="height:100px;">
+                <div class="col" style="display: flex">
+                    <h5 style="margin: auto;">ID Number</h5>
+                </div>
+                <div class="col-8" style="display: flex;">
+                    <h5 style="margin: auto;">{{user.ID_nbr}}</h5>
+                </div>
+            </div>
+            <div class="row patientInfo" style="height:100px;">
+                <div class="col" style="display: flex">
+                    <h5 style="margin: auto;">Date of Birth</h5>
+                </div>
+                <div class="col-8" style="display: flex;">
+                    <h5 style="margin: auto;">{{user.DOB}}</h5>
+                </div>
+            </div>
+            <div class="row patientInfo" style="height:100px;">
+                <div class="col" style="display: flex">
+                    <h5 style="margin: auto;">First Dose</h5>
+                </div>
+                <div class="col-8" style="display: flex;">
+                    <h5 style="margin: auto;">{{user.doseOneDate}}</h5>
+                </div>
+            </div>
+            <div class="row patientInfo" style="height:100px;">
+                <div class="col" style="display: flex">
+                    <h5 style="margin: auto;">Second Dose</h5>
+                </div>
+                <div class="col-8" style="display: flex;">
+                    <h5 style="margin: auto;">{{user.doseTwoDate}}</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" style="display: flex;">
+                    <div id="qrcode" style="margin: 40px auto 0 auto;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     {% else %}
     <p>Certificate only available after taking both doses!</p>
     {% endif %}
 </div>
+{% endblock %}
 
-
+{% block js %}
+<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+<script>
+    function generatePDF() {
+        const elem=document.getElementById('pdfgenerated');
+        html2pdf().from(elem).save();
+    }
+    const qrcode = new QRCode(document.getElementById('qrcode'), {
+  text: '{{user.name}}',
+  width: 300,
+  height: 300,
+  colorDark : '#000',
+  colorLight : '#fff',
+  correctLevel : QRCode.CorrectLevel.H
+});
+</script>
 {% endblock %}

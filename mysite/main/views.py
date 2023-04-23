@@ -151,3 +151,19 @@ def adminPatient(request):
         if len(results)==0: context['found']=False
 
     return render(request, 'adminPatient.html', context)
+
+def viewCertificate(request):
+    if not request.user.is_authenticated:
+        return render(request, 'notAllowed.html')
+    return render(request, 'certificate.html')
+
+def verifyCertificate(request, id):
+    # print(id)
+    context=dict()
+    try:
+        account=Account.objects.get(id=id)
+    except:
+        return render(request, 'verifyCertificate.html', {'notFound':True})
+    context['notFound']=False
+    context['account']=account
+    return render(request, 'verifyCertificate.html', context)

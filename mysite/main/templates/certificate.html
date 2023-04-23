@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Certificate{% endblock %}
+
+{% block css %}
+<style>
+    .col,col-8{
+        padding: 0;
+      }
+      .patientInfo > .col{
+        border-top: 2px solid #000 !important;
+        margin-left: 10px;
+      }
+      .patientInfo > .col-8{
+        border-top: 2px solid #000 !important;
+        border-left: 2px solid #000 !important;
+        margin-right: 10px;
+      }
+      .container{
+        max-width: 800px;
+      }
+        .first-row{
+            height: 100px;
+        }
+      @media screen and (max-width: 800px){
+        .first-row{
+          height: 50px;
+        }
+    }
+    h5{
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="pdfgenerated" class="container">
+    <div class="row first-row">
+        <div class="col" style="display: flex; height:100%">
+            {% load static %}
+            <img src="{% static '/vaccine.png' %}" alt="" style="height:85%; width:auto; margin: 7.5px auto;">
+        </div>
+        <div class="col-8" style="display: flex;">
+            <h5 style="margin: auto; text-align: center;">AUBCOVAX Vaccine Certificate</h5>
+        </div>
+        <div class="col" style="display: flex; height: 100%;">
+            {% load static %}
+            <img src="{% static '/flag.jpg' %}" alt="" style="width:auto; height:90%; margin: 0 auto;">
+        </div>
+    </div>
+    <div class="row patientInfo" style="height:100px;">
+        <div class="col" style="display: flex">
+            <h5 style="margin: auto;">Name</h5>
+        </div>
+        <div class="col-8" style="display: flex;">
+            <h5 style="margin: auto;">{{user.name}}</h5>
+        </div>
+    </div>
+    <div class="row patientInfo" style="height:100px;">
+        <div class="col" style="display: flex">
+            <h5 style="margin: auto;">ID Number</h5>
+        </div>
+        <div class="col-8" style="display: flex;">
+            <h5 style="margin: auto;">{{user.ID_nbr}}</h5>
+        </div>
+    </div>
+    <div class="row patientInfo" style="height:100px;">
+        <div class="col" style="display: flex">
+            <h5 style="margin: auto;">Date of Birth</h5>
+        </div>
+        <div class="col-8" style="display: flex;">
+            <h5 style="margin: auto;">{{user.DOB}}</h5>
+        </div>
+    </div>
+    <div class="row patientInfo" style="height:100px;">
+        <div class="col" style="display: flex">
+            <h5 style="margin: auto;">First Dose</h5>
+        </div>
+        <div class="col-8" style="display: flex;">
+            <h5 style="margin: auto;">{{user.doseOneDate}}</h5>
+        </div>
+    </div>
+    <div class="row patientInfo" style="height:100px;">
+        <div class="col" style="display: flex">
+            <h5 style="margin: auto;">Second Dose</h5>
+        </div>
+        <div class="col-8" style="display: flex;">
+            <h5 style="margin: auto;">{{user.doseTwoDate}}</h5>
+        </div>
+    </div>
+</div>
+{% endblock %}
