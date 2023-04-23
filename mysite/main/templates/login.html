@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block css %}
+<style>
+    input#id_username {
+        width: 250px;
+    }
+
+    input#id_password {
+        max-width: 250px;
+    }
+    .content {
+        width: 50%;
+        min-width: 250px;
+        float: left;
+    }
+    .img-small {
+        display: none;
+    }
+    @media screen and (max-width: 600px) {
+        .img-big {
+            display: none;
+        }
+        .img-small {
+            display: inline;
+        }
+    }
+    
+</style>
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container-fluid" style="padding: 30px;">
+    {% load static %}
+    <h2 style="margin-bottom: 20px; height:2.25rem">Login <img src="{% static 'vaccine.png' %}" alt="image" style="height:100%;" class="img-small"></h2>
+
+    <div class="content">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-outline-primary" type="submit">Login</button>
+        </form>
+        <br>
+        <h6>Don't have an account? <a href="/register" class="link-primary">Register</a></h6>
+    </div>
+
+    <div class="content img-big">
+        {% load static %}
+        <img src="{% static 'vaccine.png' %}" alt="image" style="height: 100%; width:auto; float: right;">
+    </div>
+</div>
+{% endblock %}
