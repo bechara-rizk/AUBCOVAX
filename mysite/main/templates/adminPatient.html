@@ -8,11 +8,11 @@
         font-style: italic;
     }
 </style>
-
 {% endblock %}
 
 {% block content %}
-<h1>Search for a patient</h1>
+{% load static %}
+<h1><img src="{% static '/user.png' %}" alt="" style="height: 40px;width: auto; margin-right: 10px;">Search for a patient</h1>
 <p>You can search for a patient by their phone number or their name</p>
 <form method="post" class="d-flex" style="margin-bottom: 20px;">
     {% csrf_token %}
@@ -36,9 +36,4 @@
 {% else %}
 <p>No patients found with given info</p>
 {% endif %}
-<div class="content img-big">
-    {% load static %}
-    <img src="{% static 'user.png' %}" alt="image" style="height: 7%; width:auto;
-     position: absolute; top: 12%; left: 65%; transform: translate(-50%, -50%);">
-</div>
 {% endblock %}
