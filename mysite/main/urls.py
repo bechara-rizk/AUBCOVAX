@@ -11,5 +11,6 @@ urlpatterns = [
     path('adminMed/', views.adminMed, name='adminMed'),
     path('adminPatient/', views.adminPatient, name='adminPatient'),
     path('viewCertificate/', views.viewCertificate, name='viewCertificate'),
+    # path('verifyCertificate/', views.viewCertificate, name='viewCertificate'),
     path('verifyCertificate/<int:id>', views.verifyCertificate, name='verifyCertificate'),
 ]

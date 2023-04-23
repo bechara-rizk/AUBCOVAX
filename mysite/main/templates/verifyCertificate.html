@@ -36,8 +36,9 @@
 
 {% block content %}
 {% if notFound %}
-<h2>Account not in database</h2>
+<h2>Account not found in database</h2>
 {% else %}
+{% if account.doseOne and account.doseTwo %}
 <div id="pdfgenerated" class="container">
     <div class="row first-row">
         <div class="col" style="display: flex; height:100%">
@@ -93,5 +94,8 @@
         </div>
     </div>
 </div>
+{% else %}
+<h2>Account not fully vaccinated.</h2>
+{% endif %}
 {% endif %}
 {% endblock %}
