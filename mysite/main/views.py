@@ -7,6 +7,14 @@ from .models import Account
 import datetime
 from . import scheduling
 from datetime import date
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
+def sendEmail(subject, message, receiver):
+    sender=settings.EMAIL_HOST_USER
+    send_mail(subject, message, sender, [receiver], fail_silently=False)
 
 # Create your views here.
 
@@ -42,6 +50,15 @@ def register(request):
             new.doseOneDate, new.doseOneTime=Appt,time
             new.save()
 
+            #send email
+            subject='Appointment Assignment'
+            message=f'''Dear {new.name},
+            You have been assigned an appointment for your first dose of the vaccine. Please arrive at the vaccination center at {new.doseOneTime} on {new.doseOneDate}.
+            
+            Thank you,
+            Vaccine Management Team'''
+            receiver=new.email
+            sendEmail(subject, message, receiver)
             login(request, user)
             return redirect('/patientInfo')
     else:
@@ -61,7 +78,8 @@ def medicalSearch(request):
         phoneNb=request.POST.get('phoneNb')
         print(phoneNb)
         return redirect(f'/medicalSearch/{phoneNb}', phoneNb=phoneNb)
-    return render(request, 'medicalSearch.html', {'result':False,'nb':''})
+    patients=Account.objects.filter(isMedicalStaff=False, isAdmin=False, is_superuser=False)
+    return render(request, 'medicalSearch.html', {'result':False,'nb':'', 'patients':patients})
 
 def medicalSearchNb(request, phoneNb):
     if not request.user.is_authenticated or not request.user.isMedicalStaff:
@@ -87,7 +105,12 @@ def medicalSearchNb(request, phoneNb):
         account=Account.objects.get(phone_nbr=phoneNb)
         account.doseTwo=True
         account.save()
-        #TODO generate certificate
+        #send email with certificate
+        subject='Vaccine Certificate'
+        html_message=render_to_string('certificate.html', {'user':account})
+        plain_message=strip_tags(html_message)
+        receiver=account.email
+        send_mail(subject, plain_message, settings.EMAIL_HOST_USER, [receiver], html_message=html_message, fail_silently=False)
         return redirect(f'/medicalSearch/{phoneNb}', phoneNb=phoneNb)
     elif request.method == 'POST' and request.POST.get('view'):
         avlbl=scheduling.viewAvailableAppointmentsRange(today+datetime.timedelta(days=14),7)
@@ -102,6 +125,16 @@ def medicalSearchNb(request, phoneNb):
         if scheduling.bookAppointment(Date,time,phoneNb):
             patient.doseTwoDate, patient.doseTwoTime=Date, time
             patient.save()
+
+            #send email
+            subject='Appointment Assignment'
+            message=f'''Dear {patient.name},
+            You have been assigned an appointment for your second dose of the vaccine. Please arrive at the vaccination center at {patient.doseTwoTime} on {patient.doseTwoDate}.
+
+            Thank you,
+            Vaccine Management Team'''
+            receiver=patient.email
+            sendEmail(subject, message, receiver)
         else:
             return HttpResponse('Error happened please contact site admin')
         return redirect(f'/medicalSearch/{phoneNb}', phoneNb=phoneNb)
