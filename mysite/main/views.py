@@ -19,7 +19,7 @@ def sendEmail(subject, message, receiver):
 def test(request):
     account=Account.objects.get(username='admin')
     subject='Vaccine Certificate'
-    html_message=render_to_string('certificate.html', {'user':account})
+    html_message=render_to_string('mailCertificate.html', {'user':account})
     plain_message=strip_tags(html_message)
     receiver='becharaerizk@yahoo.com'
     send_mail(subject, plain_message, settings.EMAIL_HOST_USER, [receiver], html_message=html_message, fail_silently=False)
@@ -115,7 +115,7 @@ def medicalSearchNb(request, phoneNb):
         account.save()
         #send email with certificate
         subject='Vaccine Certificate'
-        html_message=render_to_string('certificate.html', {'user':account})
+        html_message=render_to_string('mailCertificate.html', {'user':account})
         plain_message=strip_tags(html_message)
         receiver=account.email
         send_mail(subject, plain_message, settings.EMAIL_HOST_USER, [receiver], html_message=html_message, fail_silently=False)
