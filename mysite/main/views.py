@@ -16,14 +16,15 @@ def sendEmail(subject, message, receiver):
     sender=settings.EMAIL_HOST_USER
     send_mail(subject, message, sender, [receiver], fail_silently=False)
 
-def test(request):
-    account=Account.objects.get(username='admin')
-    subject='Vaccine Certificate'
-    html_message=render_to_string('mailCertificate.html', {'user':account})
-    plain_message=strip_tags(html_message)
-    receiver='becharaerizk@yahoo.com'
-    send_mail(subject, plain_message, settings.EMAIL_HOST_USER, [receiver], html_message=html_message, fail_silently=False)
-    return render(request, 'testpage.html')
+# def test(request):
+#     account=Account.objects.get(username='admin')
+#     # return render(request, 'mailCertificate.html', {'user':account})
+#     subject='Vaccine Certificate'
+#     html_message=render_to_string('mailCertificate.html', {'user':account})
+#     plain_message=strip_tags(html_message)
+#     receiver='becharaerizk@yahoo.com'
+#     send_mail(subject, plain_message, settings.EMAIL_HOST_USER, [receiver], html_message=html_message, fail_silently=False)
+#     return render(request, 'testpage.html')
 
 # Create your views here.
 
