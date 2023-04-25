@@ -140,7 +140,7 @@
         html2pdf().from(elem).save();
     }
     const qrcode = new QRCode(document.getElementById('qrcode'), {
-  text: '{{user.name}}',
+  text: 'https://aubcovax6.pythonanywhere.com/verifyCertificate/{{user.id}}',
   width: 300,
   height: 300,
   colorDark : '#000',

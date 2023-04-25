@@ -32,8 +32,11 @@ timesAndAvailability=[[times[i],True,-1] for i in range(len(times))]
 # file.close()
 # print(schd['2023-04-19'])
 
+# url="/home/aubcovax6/AUBCOVAX/mysite/main/schedule.json" #if running on server
+url="mysite/main/schedule.json" #if running locally
+
 def openSchd() -> dict:
-    file=open("mysite/main/schedule.json","r")
+    file=open(url,"r")
     try:
         schd=json.load(file)
     except:
@@ -43,7 +46,7 @@ def openSchd() -> dict:
 
 def saveSchd(schd:dict):
     outputJson=json.dumps(schd, indent=4)
-    file=open("mysite/main/schedule.json","w")
+    file=open(url,"w")
     file.write(outputJson)
     file.close()
 
