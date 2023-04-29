@@ -13,5 +13,6 @@ urlpatterns = [
     path('viewCertificate/', views.viewCertificate, name='viewCertificate'),
     # path('verifyCertificate/', views.viewCertificate, name='viewCertificate'),
     path('verifyCertificate/<int:id>', views.verifyCertificate, name='verifyCertificate'),
+    path('downCertificate/', views.downCertificate, name='downCertificate'),
     # path('test/', views.test, name='test'),
 ]
