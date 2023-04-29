@@ -51,9 +51,11 @@ def register(request):
             new.save()
 
             #send email
-            subject='Appointment Assignment'
+            subject='First Dose Appointment'
             message=f'''Dear {new.name},
-You have been assigned an appointment for your first dose of the vaccine. Please arrive at the vaccination center at {new.doseOneTime} on {new.doseOneDate}.
+You have been assigned an appointment for your first dose of the vaccine. Please arrive at the vaccination center at {new.doseOneTime} on {new.doseOneDate.strftime("%D")}.
+
+To view your information, please login: https://aubcovax6.pythonanywhere.com/patientInfo.
 
 Thank you,
 Vaccine Management Team'''
@@ -68,6 +70,57 @@ Vaccine Management Team'''
 def patientInfo(request):
     if not request.user.is_authenticated:
         return render(request, 'notAllowed.html')
+    if request.method == 'POST':
+        if request.POST.get('postponeOne') or request.POST.get('postponeTwo'):
+            #if user cant make it to an appointment give them a list of appointments to choose from within a week
+            slots=[]
+            today=date.fromisoformat(datetime.datetime.today().strftime('%Y-%m-%d'))
+            rng=3
+            while len(slots)<20:
+                slots=scheduling.viewAvailableAppointmentsRange(today+datetime.timedelta(days=1),rng)
+                rng+=1
+            context={'slots':slots}
+            return render(request, 'patientInfo.html', context)
+        elif request.POST.get("date1"):
+            Date=request.POST.get('date1').split()[0]
+            Date=date.fromisoformat(Date)
+            time=request.POST.get('date1').split()[1]
+            if scheduling.bookAppointment(Date,time,request.user.phone_nbr):
+                request.user.doseOneDate, request.user.doseOneTime=Date, time
+                request.user.save()
+                subject='First Dose New Appointment'
+                message=f'''Dear {request.user.name},
+You have been assigned a new appointment for your first dose of the vaccine. Please arrive at the vaccination center at {request.user.doseTwoTime} on {request.user.doseTwoDate.strftime("%D")}.
+
+To view your information, please login: https://aubcovax6.pythonanywhere.com/patientInfo.
+
+Thank you,
+Vaccine Management Team'''
+                receiver=request.user.email
+                sendEmail(subject, message, receiver)
+            else:
+                return HttpResponse('Error happened please contact site admin')
+
+        elif request.POST.get("date2"):
+            Date=request.POST.get('date2').split()[0]
+            Date=date.fromisoformat(Date)
+            time=request.POST.get('date2').split()[1]
+            if scheduling.bookAppointment(Date,time,request.user.phone_nbr):
+                request.user.doseTwoDate, request.user.doseTwoTime=Date, time
+                request.user.save()
+                subject='Second Dose New Appointment'
+                message=f'''Dear {request.user.name},
+You have been assigned a new appointment for second first dose of the vaccine. Please arrive at the vaccination center at {request.user.doseTwoTime} on {request.user.doseTwoDate.strftime("%D")}.
+
+To view your information, please login: https://aubcovax6.pythonanywhere.com/patientInfo.
+
+Thank you,
+Vaccine Management Team'''
+                receiver=request.user.email
+                sendEmail(subject, message, receiver)
+            else:
+                return HttpResponse('Error happened please contact site admin')
+
     return render(request, 'patientInfo.html')
 
 def medicalSearch(request):
@@ -85,7 +138,7 @@ def medicalSearchNb(request, phoneNb):
         return render(request, 'notAllowed.html')
 
     today=date.fromisoformat(datetime.datetime.today().strftime('%Y-%m-%d'))
-    avlbl=[]
+    slots=[]
     # print(request.POST)
     if request.method == 'POST' and request.POST.get('phoneNb'):
         phoneNb=request.POST.get('phoneNb')
@@ -112,9 +165,9 @@ def medicalSearchNb(request, phoneNb):
         send_mail(subject, plain_message, settings.EMAIL_HOST_USER, [receiver], html_message=html_message, fail_silently=False)
         return redirect(f'/medicalSearch/{phoneNb}', phoneNb=phoneNb)
     elif request.method == 'POST' and request.POST.get('view'):
-        avlbl=scheduling.viewAvailableAppointmentsRange(today+datetime.timedelta(days=14),7)
+        slots=scheduling.viewAvailableAppointmentsRange(today+datetime.timedelta(days=14),7)
         patient=Account.objects.get(phone_nbr=phoneNb)
-        context={'result':True ,'patient': patient, 'notFound':False,'nb':phoneNb, 'today':today, 'slots':avlbl}
+        context={'result':True ,'patient': patient, 'notFound':False,'nb':phoneNb, 'today':today, 'slots':slots}
         return render(request, 'medicalSearch.html', context)
     elif request.method == 'POST' and request.POST.get('date'):
         Date=request.POST.get('date').split()[0]
@@ -126,9 +179,11 @@ def medicalSearchNb(request, phoneNb):
             patient.save()
 
             #send email
-            subject='Appointment Assignment'
+            subject='Second Dose Appointment'
             message=f'''Dear {patient.name},
-You have been assigned an appointment for your second dose of the vaccine. Please arrive at the vaccination center at {patient.doseTwoTime} on {patient.doseTwoDate}.
+You have been assigned an appointment for your second dose of the vaccine. Please arrive at the vaccination center at {patient.doseTwoTime} on {patient.doseTwoDate.strftime("%D")}.
+
+To view your information, please login: https://aubcovax6.pythonanywhere.com/patientInfo.
 
 Thank you,
 Vaccine Management Team'''

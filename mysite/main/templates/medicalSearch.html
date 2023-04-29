@@ -105,7 +105,7 @@ tbody{
 
 <form method="POST">
     {% csrf_token %}
-    <div class="list-group">
+    <div class="list-group" style="width: max-content;">
         {% for slot in slots %}
         <button type="submit" class="list-group-item list-group-item-action" name="date" value="{{slot}}">{{slot.split.0}} at {{slot.split.1}}</button>
         {% endfor %}

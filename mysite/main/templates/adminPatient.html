@@ -7,6 +7,20 @@
     .search-input:placeholder-shown {
         font-style: italic;
     }
+    td {
+        background-color: white;
+        text-align: center;
+  
+}
+
+th {
+    background-color: white;
+  text-align: center;
+}
+
+tbody{
+    background-color: white;
+}
 </style>
 {% endblock %}
 
@@ -27,11 +41,39 @@
 
 <h3>Search results</h3>
 {% if found %}
-<ul class="list-group">
+
+
+<table class="table table-bordered">
+
+    <tr>
+        <th style="width:20%;">Full Name</th>
+        <th style="width:10%;">ID #</th>
+        <th style="width:35%;">Dose 1 Date</th>
+        <th style="width:35%;">Dose 2 Date</th>
+    </tr>
     {% for patient in results %}
-    <li class="list-group-item">{{ patient.name }}, {{patient.ID_nbr}}</li>
+    <tr>
+        <td>{{patient.name}}</td>
+        <td>{{patient.ID_nbr}}</td>
+
+        {% if patient.doseOne %}
+        <td>{{patient.doseOneDate}}</td>
+        {% else %}
+        <td>Scheduled for {{patient.doseOneDate}} at {{patient.doseOneTime}}</td>
+        {%endif%}
+
+        {% if patient.doseTwoDate == None %}
+        <td>Not scheduled yet</td>
+        {% else %}
+        {% if patient.doseTwo %}
+        <td>{{patient.doseTwoDate}}</td>
+        {% else %}
+        <td>Scheduled for {{patient.doseTwoDate}} at {{patient.doseTwoTime}}</td>
+        {%endif%}
+        {%endif%}
+    </tr>
     {% endfor %}
-</ul>
+</table>
 
 {% else %}
 <p>No patients found with given info</p>

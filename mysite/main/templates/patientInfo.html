@@ -46,6 +46,20 @@
     <p>Dose one date: {{user.doseOneDate}} </p>
     {%else%}
     <p>Dose one scheduled on: {{user.doseOneDate}} at {{user.doseOneTime}}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button class="btn btn-sm btn-danger" style="margin-bottom: 1rem;" type="submit" name="postponeOne" value="one">I can't make it</button>
+    </form>
+    {% if slots %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="list-group" style="width: max-content;">
+            {% for slot in slots %}
+            <button type="submit" class="list-group-item list-group-item-action" name="date1" value="{{slot}}">{{slot.split.0}} at {{slot.split.1}}</button>
+            {% endfor %}
+        </div>
+    </form>
+    {% endif %}
     {%endif%}
 
     {% if user.doseTwoDate == None %}
@@ -55,6 +69,20 @@
     <p>Dose one date: {{user.doseTwoDate}} </p>
     {%else%}
     <p>Dose two scheduled on: {{user.doseTwoDate}} at {{user.doseTwoTime}}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button class="btn btn-sm btn-danger" style="margin-bottom: 1rem;" type="submit" name="postponeTwo" value="two">I can't make it</button>
+    </form>
+    {% if slots %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="list-group" style="width: max-content;">
+            {% for slot in slots %}
+            <button type="submit" class="list-group-item list-group-item-action" name="date2" value="{{slot}}">{{slot.split.0}} at {{slot.split.1}}</button>
+            {% endfor %}
+        </div>
+    </form>
+    {% endif %}
     {%endif%}
     {% endif %}
 
