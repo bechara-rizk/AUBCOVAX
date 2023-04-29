@@ -90,7 +90,7 @@ def patientInfo(request):
                 request.user.save()
                 subject='First Dose New Appointment'
                 message=f'''Dear {request.user.name},
-You have been assigned a new appointment for your first dose of the vaccine. Please arrive at the vaccination center at {request.user.doseTwoTime} on {request.user.doseTwoDate.strftime("%D")}.
+You have been assigned a new appointment for your first dose of the vaccine. Please arrive at the vaccination center at {request.user.doseOneTime} on {request.user.doseOneDate.strftime("%D")}.
 
 To view your information, please login: https://aubcovax6.pythonanywhere.com/patientInfo.
 
@@ -106,7 +106,7 @@ Vaccine Management Team'''
             Date=date.fromisoformat(Date)
             time=request.POST.get('date2').split()[1]
             if scheduling.bookAppointment(Date,time,request.user.phone_nbr):
-                request.user.doseTwoDate, request.user.doseTwoTime=Date, time
+                request.user.doseDate, request.user.doseTwoTime=Date, time
                 request.user.save()
                 subject='Second Dose New Appointment'
                 message=f'''Dear {request.user.name},
