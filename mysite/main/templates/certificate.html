@@ -89,5 +89,24 @@
             <h5 style="margin: auto;">{{user.doseTwoDate}}</h5>
         </div>
     </div>
+    <div class="row">
+        <div class="col" style="display: flex;">
+            <div id="qrcode" style="margin: 40px auto 0 auto;"></div>
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+<script>
+    const qrcode = new QRCode(document.getElementById('qrcode'), {
+  text: 'https://aubcovax6.pythonanywhere.com/verifyCertificate/{{user.id}}',
+  width: 300,
+  height: 300,
+  colorDark : '#000',
+  colorLight : '#fff',
+  correctLevel : QRCode.CorrectLevel.H
+});
+</script>
 {% endblock %}
