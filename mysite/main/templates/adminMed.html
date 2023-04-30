@@ -9,8 +9,8 @@
 {% load static %}
 <h1><img src="{% static '/user.png' %}" alt="" style="height: 40px;width: auto; margin-right: 10px;">View medical personel</h1>
 
-<p>Here is a list of all medical personel in the system.</p>
-<ul class="list-group">
+<h6 class="mb-3">Here is a list of all medical personel in the system.</h6>
+<ul class="list-group" style="width: max-content;">
     {% for med in personel %}
     <li class="list-group-item">{{ med.name }}, {{med.ID_nbr}}</li>
     {% endfor %}

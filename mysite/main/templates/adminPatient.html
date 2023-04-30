@@ -7,20 +7,21 @@
     .search-input:placeholder-shown {
         font-style: italic;
     }
+
     td {
         background-color: white;
         text-align: center;
-  
-}
 
-th {
-    background-color: white;
-  text-align: center;
-}
+    }
 
-tbody{
-    background-color: white;
-}
+    th {
+        background-color: white;
+        text-align: center;
+    }
+
+    tbody {
+        background-color: white;
+    }
 </style>
 {% endblock %}
 
@@ -41,39 +42,39 @@ tbody{
 
 <h3>Search results</h3>
 {% if found %}
-
-
-<table class="table table-bordered">
-
-    <tr>
-        <th style="width:20%;">Full Name</th>
-        <th style="width:10%;">ID #</th>
-        <th style="width:35%;">Dose 1 Date</th>
-        <th style="width:35%;">Dose 2 Date</th>
-    </tr>
+<div class="accordion" id="accordionExample">
     {% for patient in results %}
-    <tr>
-        <td>{{patient.name}}</td>
-        <td>{{patient.ID_nbr}}</td>
-
-        {% if patient.doseOne %}
-        <td>{{patient.doseOneDate}}</td>
-        {% else %}
-        <td>Scheduled for {{patient.doseOneDate}} at {{patient.doseOneTime}}</td>
-        {%endif%}
-
-        {% if patient.doseTwoDate == None %}
-        <td>Not scheduled yet</td>
-        {% else %}
-        {% if patient.doseTwo %}
-        <td>{{patient.doseTwoDate}}</td>
-        {% else %}
-        <td>Scheduled for {{patient.doseTwoDate}} at {{patient.doseTwoTime}}</td>
-        {%endif%}
-        {%endif%}
-    </tr>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading{{patient.usermame}}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{patient.username}}" aria-expanded="true" aria-controls="collapseOne{{patient.username}}">
+                {{patient.name}}
+            </button>
+        </h2>
+        <div id="collapseOne{{patient.username}}" class="accordion-collapse collapse" aria-labelledby="heading{{patient.usermame}}" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <p><strong>ID number:</strong> {{patient.ID_nbr}}</p>
+                <p><strong>Phone number:</strong> {{patient.phone_nbr}}</p>
+                <p><strong>Dose 1 date:</strong> 
+                {% if patient.doseOne %}
+                {{patient.dose}}</p>
+                {% else %}
+                Scheduled for {{patient.doseOneDate}} at {{patient.doseOneTime}}</p>
+                {%endif%}
+                <p class="mb-0"><strong>Dose 2 date:</strong> 
+                {% if patient.doseTwoDate == None %}
+                Not scheduled yet</p>
+                {% else %}
+                {% if patient.doseTwo %}
+                {{patient.doseTwoDate}}</p>
+                {% else %}
+                Scheduled for {{patient.doseTwoDate}} at {{patient.doseTwoTime}}</p>
+                {%endif%}
+                {%endif%}
+            </div>
+        </div>
+    </div> 
     {% endfor %}
-</table>
+</div>
 
 {% else %}
 <p>No patients found with given info</p>
