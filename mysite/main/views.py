@@ -259,3 +259,13 @@ def verifyCertificate(request, id):
     context['notFound']=False
     context['account']=account
     return render(request, 'verifyCertificate.html', context)
+
+def stats(request):
+    context=dict()
+    # subtract 3 to remove the 3 admins
+    context['registered']=Account.objects.all().count()-3
+    context['nodose']=Account.objects.filter(doseOne=False).count()-3
+    context['onedose']=Account.objects.filter(doseOne=True, doseTwo=False).count()
+    context['twodose']=Account.objects.filter(doseOne=True, doseTwo=True).count()
+
+    return render(request, 'stats.html', context)

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block css %}
+<style> 
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<h2>Vaccination Statistics</h2>
+<div class="row">
+    <div class="col-sm-4">
+      <div class="card mb-3 border-primary">
+        <div class="card-header">Registered users</div>
+        <div class="card-body">
+          <p class="card-text">{{registered}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card mb-3 border-primary">
+        <div class="card-header">Users without any doses</div>
+        <div class="card-body">
+          <p class="card-text">{{nodose}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card mb-3 border-primary">
+            <div class="card-header">Users with only the first dose</div>
+          <div class="card-body">
+            <p class="card-text">{{onedose}}</p>
+          </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card mb-3 border-primary">
+            <div class="card-header">Users fully vacinated</div>
+          <div class="card-body">
+            <p class="card-text">{{twodose}}</p>
+          </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
