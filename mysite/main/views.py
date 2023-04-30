@@ -129,7 +129,7 @@ def medicalSearch(request):
     
     if request.method == 'POST':
         phoneNb=request.POST.get('phoneNb')
-        print(phoneNb)
+        # print(phoneNb)
         return redirect(f'/medicalSearch/{phoneNb}', phoneNb=phoneNb)
     return render(request, 'medicalSearch.html', {'result':False,'nb':''})
 
