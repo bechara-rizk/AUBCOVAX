@@ -3,6 +3,7 @@
 import json
 import datetime
 import copy
+import os
 
 # dict: keys are the available days, values are lists, each elemenet in a list is a list of 2 elements: [start time, taken or free]
 #str(datetime.date(2023,4,19)) is 2023-4-19
@@ -33,7 +34,11 @@ timesAndAvailability=[[times[i],True,-1] for i in range(len(times))]
 # print(schd['2023-04-19'])
 
 # url="/home/aubcovax6/AUBCOVAX/mysite/main/schedule.json" #if running on server
-url="mysite/main/schedule.json" #if running locally
+# url="mysite/main/schedule.json" #if running locally
+if os.path.exists('/home/aubcovax6/AUBCOVAX/mysite/main/schedule.json'):
+    url='/home/aubcovax6/AUBCOVAX/mysite/main/schedule.json'
+else:
+    url='mysite/main/schedule.json'
 
 def openSchd() -> dict:
     file=open(url,"r")
